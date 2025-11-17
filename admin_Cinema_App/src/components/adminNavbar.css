@@ -1,0 +1,22 @@
+.login-navbar-center {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: #a7e7f6; 
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-btn:hover {
+  color: #ffffff; 
+  text-decoration: underline;
+}
+

@@ -1,0 +1,16 @@
+.footer {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #144c65;
+  color: #fff;
+  padding: 10px 0;          /* reduced from 20px */
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;       /* slightly smaller font */
+  letter-spacing: 1px;
+  text-align: center;
+  display: flex;
+  justify-content: center;   /* centers content horizontally */
+  align-items: center;       /* centers content vertically */
+  z-index: 50;               /* ensures it stays above other content if needed */
+}

@@ -1,0 +1,131 @@
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.login-card {
+  width: 900px;
+  max-width: 95%;
+  height: 500px;
+  display: flex;           
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  background-image: url('../../assets/loginPage.jpg'); 
+  background-size: cover;
+  background-position: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.login-left {
+  flex: 2;                 
+}
+
+.login-form {
+  flex: 1;                 
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+  margin-top: 130px;
+}
+
+.login-form h1 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #124e66;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.2); 
+  color: rgb(36, 36, 36);
+  backdrop-filter: blur(5px); 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+}
+
+.login-form input::placeholder {
+  color: rgba(17, 17, 17, 0.7);
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background: rgba(29,78,216,0.8); 
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+  transition: background 0.3s;
+}
+
+.login-form button:hover {
+  background: rgba(37,99,235,0.9);
+}
+
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #081535;
+  color: white;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #2563eb;
+}
+
+.login-form .forgot-password {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #124e66;
+}
+
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 12px;
+  top: 42%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;     
+  color: #596469;      
+  transition: 0.2s ease;
+}
+
+.toggle-eye:hover {
+  color: #0d3749;
+  transform: translateY(-50%) scale(1.1);
+}
+

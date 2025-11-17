@@ -1,0 +1,10 @@
+{
+    "login": {
+        "username": "Username",
+        "password": "Password",
+        "loginButton": "Login",
+        "forgotPassword": "Forgot Password?",
+        "invalidCredentials": "Invalid username or password.",
+        "submit_button": "Kirjaudu"
+    }
+}

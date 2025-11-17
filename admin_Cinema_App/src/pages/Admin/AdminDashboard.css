@@ -1,0 +1,133 @@
+body {
+  background-color: #040d25;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-container {
+  display: flex;
+  padding: 20px;
+  gap: 25px;
+  background: #040d25;
+  color: white;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 70px;
+}
+
+/* LEFT COLUMN */
+.left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Welcome Card */
+.welcome-card {
+  display: flex;
+  justify-content: space-between;
+  background: #111d3b;
+  border-radius: 15px;
+  padding: 20px;
+  height: 130px;
+}
+
+.welcome-text h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.welcome-text a {
+  color: #58a6ff;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.stat-card {
+  background: #111d3b;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Progress Card */
+.progress-card {
+  background: #111d3b;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.progress-header button {
+  background: #58a6ff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: black;
+}
+
+.progress-table .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+
+/* RIGHT COLUMN */
+.right-column {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calendar-box {
+  background: #111d3b;
+  border-radius: 15px;
+  padding: 15px;
+}
+.new-applicants-box {
+  background: #111d3b;
+  border-radius: 15px;
+  padding: 15px;
+  height: 250px;
+  overflow-y: auto;
+}
+
+
+/* Applicants */
+.applicant {
+  display: flex;
+  padding: 7px 0;
+}
+
+.applicant:last-child {
+  border-bottom: none;
+}
+.applicant .info h4 {
+  font-size: 16px; 
+  margin: 0;
+  font-weight: normal;
+}
+
+.stats-grid a.stat-card {
+  color: white;          
+  text-decoration: none;  
+}
+
+.stats-grid a.stat-card:hover {
+  color: white;
+  text-decoration: none;
+}

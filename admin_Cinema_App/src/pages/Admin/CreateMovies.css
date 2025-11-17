@@ -1,0 +1,108 @@
+.create-page {
+  background: #040d25;
+  min-height: 100vh;
+  color: white;
+  margin-top: 40px;
+}
+
+.create-main {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 60px 20px;
+  align-items: flex-start;
+}
+
+.create-form {
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-form input,
+.create-form select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.create-form button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #58a6ff;
+  color: #040d25;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.message.success {
+  color: #4caf50;
+}
+.message.error {
+  color: #ff5252;
+}
+
+.imdb-search-panel {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
+}
+
+.imdb-search-panel input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.imdb-search-panel button {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: #58a6ff;
+  color: #040d25;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.search-results {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-item:hover {
+  background: rgba(88,166,255,0.2);
+}
+
+.search-poster {
+  width: 50px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 5px;
+}
