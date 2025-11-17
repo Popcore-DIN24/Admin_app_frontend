@@ -25,6 +25,9 @@ export default function EditMovies() {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 8;
 
+  setPage(1);
+  totalPages;
+
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
