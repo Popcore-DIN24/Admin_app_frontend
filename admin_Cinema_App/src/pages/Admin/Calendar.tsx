@@ -6,7 +6,7 @@ const Calendar: React.FC = () => {
 
   const month = selectedDate.toLocaleString('default', { month: 'long' });
   const year = selectedDate.getFullYear();
-
+  setSelectedDate(new Date());
   const daysInMonth = new Date(year, selectedDate.getMonth() + 1, 0).getDate();
 
   const startDay = new Date(year, selectedDate.getMonth(), 1).getDay();
