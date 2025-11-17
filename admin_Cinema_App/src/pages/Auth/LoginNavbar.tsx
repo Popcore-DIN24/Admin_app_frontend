@@ -2,7 +2,7 @@
 import logo from '../../assets/logo.png';
 import navbarBg from '../../assets/navbar-bg.jpg';
 
-import './loginNavbar.css';
+import './NavbarLogin.css'
 
 export default function LoginNavbar() {
   return (

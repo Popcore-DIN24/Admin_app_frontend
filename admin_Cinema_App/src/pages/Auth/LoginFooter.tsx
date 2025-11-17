@@ -1,4 +1,4 @@
-import "./loginFooter.css";
+import './FooterLogin.css'
 export default function () {
   return (
     <footer className="footer">
