@@ -21,8 +21,8 @@ export default function EditMovies() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [page, _setPage] = useState(1);
+  const [_totalPages, setTotalPages] = useState(1);
   const limit = 8;
 
   useEffect(() => {

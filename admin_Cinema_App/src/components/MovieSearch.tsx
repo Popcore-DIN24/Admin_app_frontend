@@ -86,7 +86,7 @@ const extractPosterPathFromRaw = (raw?: string): string | null => {
 const MovieSearch: React.FC = () => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [movie, setMovie] = useState<MovieDetails | null>(null);
+  const [movie, setMovie] = useState<MovieDetails |undefined>(undefined);
   const [error, setError] = useState("");
   const [matchType, setMatchType] = useState("");
 
@@ -103,7 +103,7 @@ const MovieSearch: React.FC = () => {
 
     setLoading(true);
     setError("");
-    setMovie(null);
+    setMovie(undefined);
     setMatchType("");
 
     try {
