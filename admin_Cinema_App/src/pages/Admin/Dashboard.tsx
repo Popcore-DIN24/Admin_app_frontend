@@ -4,6 +4,7 @@ import "./AdminDashboard.css";
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
 import { Link } from "react-router-dom";
+import MovieSearch from "../../components/MovieSearch";
 
 export default function AdminDashboard() {
   const employees = ["Minou Vahedinezhad", "John Doe", "Jack Smisth"]; 
@@ -23,6 +24,7 @@ export default function AdminDashboard() {
             <div className="welcome-text">
               <h3>Hello #Admin! 👋</h3>
               <p>Check today's movie schedule and sales</p>
+              
             </div>
             <div className="welcome-illustration">
               {/* remember to add photo */}
@@ -76,6 +78,11 @@ export default function AdminDashboard() {
           {/* Calendar */}
           <div className="calendar-box">
             <Calendar />
+          </div>
+
+          {/* Calendar */}
+          <div className="">
+            <MovieSearch />
           </div>
 
           {/* Employees */}

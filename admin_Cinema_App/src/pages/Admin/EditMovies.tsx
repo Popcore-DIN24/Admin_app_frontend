@@ -25,9 +25,6 @@ export default function EditMovies() {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 8;
 
-  setPage(1);
-  totalPages;
-
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
@@ -99,7 +96,8 @@ export default function EditMovies() {
         setMovies(updatedList);
         setTimeout(() => setSuccessMessage(""), 3000);
       } else {
-        setErrorMessage("Failed to update movie.");
+        const errorData = await res.json();
+        setErrorMessage(errorData.error || "Failed to update movie.");
       }
     } catch (error) {
       console.error("Error updating movie:", error);
@@ -134,7 +132,8 @@ export default function EditMovies() {
         setSelectedMovie(null);
         setTimeout(() => setSuccessMessage(""), 3000);
       } else {
-        setErrorMessage("Failed to delete movie.");
+        const errorData = await res.json();
+        setErrorMessage(errorData.error || "Failed to delete movie.");
       }
     } catch (err) {
       console.error("Error deleting movie:", err);

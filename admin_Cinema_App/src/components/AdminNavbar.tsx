@@ -22,6 +22,7 @@ export default function LoginNavbar() {
 
       <div className="login-navbar-center">
         <button onClick={() => navigate("/admin/movies/add")} className="nav-btn">Add Movie</button>
+        <button onClick={() => navigate("/admin/movies/list")} className="nav-btn">Assign Movie Schedule</button>
         <button onClick={() => navigate("/admin/movies/edit")} className="nav-btn">Edit Movies</button>
         <button onClick={() => navigate("/admin/movies/delete")} className="nav-btn">Delete Movies</button>
         <button onClick={() => navigate("/admin/employees")} className="nav-btn">Employees</button>
