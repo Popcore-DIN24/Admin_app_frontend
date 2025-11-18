@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MoviesList.css";
-import AdminNavbar from "../components/AdminNavbar";
+import AdminNavbar from "../../components/AdminNavbar";
 
 interface Movie {
   id: number;

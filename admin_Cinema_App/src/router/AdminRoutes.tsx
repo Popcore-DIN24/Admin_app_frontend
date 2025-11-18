@@ -4,8 +4,8 @@ import AdminDashboard from '../pages/Admin/Dashboard';
 import CreateMovies from "./../pages/Admin/CreateMovies";
 import EditMovies from '../pages/Admin/EditMovies';
 import DeleteMovies from '../pages/Admin/DeleteMovies';
-import MoviesList from "../pages/Movieslist"
-import AssignSchedule from '../pages/AssignSchedule';
+import MoviesList from "../pages/Admin/MoviesList"
+import AssignSchedule from '../pages/Admin/AssignSchedule';
 import MovieSchedule from '../pages/Admin/MovieSchedule';
 export default function AdminRoutes() {
   return (
