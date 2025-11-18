@@ -4,8 +4,9 @@ import AdminDashboard from '../pages/Admin/Dashboard';
 import CreateMovies from "./../pages/Admin/CreateMovies";
 import EditMovies from '../pages/Admin/EditMovies';
 import DeleteMovies from '../pages/Admin/DeleteMovies';
-
-
+import MoviesList from "../pages/Admin/MoviesList"
+import AssignSchedule from '../pages/Admin/AssignSchedule';
+import MovieSchedule from '../pages/Admin/MovieSchedule';
 export default function AdminRoutes() {
   return (
     <Routes>
@@ -15,6 +16,11 @@ export default function AdminRoutes() {
       <Route path="*" element={<Navigate to="/" replace />} />
       <Route path="movies/edit" element={<EditMovies />} />
       <Route path="movies/delete" element={<DeleteMovies />} />
+      <Route path="movies/list" element={<MoviesList />} />
+      <Route path="movies/:id/schedule" element={<AssignSchedule />} />
+      <Route path="movies/:id/schedule-view" element={<MovieSchedule />}
+/>
+
 
     </Routes>
 
