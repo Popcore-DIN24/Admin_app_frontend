@@ -7,12 +7,12 @@
   font-family: "Poppins", sans-serif;
 }
 
-.title {
+.delete-title {
   font-size: 32px;
   font-weight: 600;
   text-align: center;
   margin-bottom: 25px;
-  color: #f5f5f5;
+  color: #cde9f5;
 }
 
 /* ====== Messages ====== */
@@ -34,7 +34,7 @@
   color: #fff;
 }
 
-.loading-text {
+.delete-loading-text {
   text-align: center;
   margin-bottom: 15px;
   font-size: 16px;
@@ -42,28 +42,28 @@
 }
 
 /* ====== Movie Grid ====== */
-.movie-grid {
+.delete-movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 22px;
   margin-top: 20px;
 }
 
-.movie-card {
-  background: #0d0f18;
+.delete-movie-card {
+  background: #0a0c14;
   border-radius: 12px;
   padding: 10px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.07);
   transition: all 0.25s ease;
 }
 
-.movie-card:hover {
+.delete-movie-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 0 14px rgba(255, 255, 255, 0.13);
 }
 
 /* ====== Poster ====== */
-.poster-wrapper {
+.delete-poster-wrapper {
   width: 100%;
   height: 300px;
   overflow: hidden;
@@ -71,13 +71,13 @@
   margin-bottom: 10px;
 }
 
-.poster {
+.delete-poster {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.placeholder {
+.delete-poster-placeholderr {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,13 +87,13 @@
 }
 
 /* ====== Info Text ====== */
-.movie-info h3 {
+.delete-movie-info h3 {
   font-size: 18px;
   margin-bottom: 4px;
   color: #ffffff;
 }
 
-.genre {
+.delete-genre {
   font-size: 14px;
   color: #d1d1d1;
   margin-bottom: 12px;
@@ -123,7 +123,7 @@
 }
 
 /* ====== Pagination ====== */
-.pagination {
+.delete-pagination {
   margin-top: 35px;
   text-align: center;
   display: flex;
@@ -134,7 +134,7 @@
   color: #ddd;
 }
 
-.pagination button {
+.delete-pagination button {
   background: #2a2b2f;
   border: none;
   padding: 8px 14px;

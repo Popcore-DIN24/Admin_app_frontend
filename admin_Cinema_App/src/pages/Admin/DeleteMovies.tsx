@@ -79,31 +79,30 @@ export default function DeleteMovies() {
 
   return (
     <>
-      {/* ✅ Navbar added */}
       <AdminNavbar />
 
       <div className="delete-container">
-        <h2 className="title">Delete Movies</h2>
+        <h2 className="delete-title">Delete Movies</h2>
 
         {successMessage && <div className="message success">{successMessage}</div>}
         {errorMessage && <div className="message error">{errorMessage}</div>}
 
-        {loading && <p className="loading-text">Loading...</p>}
+        {loading && <p className="delete-loading-text">Loading...</p>}
 
-        <div className="movie-grid">
+        <div className="delete-movie-grid">
           {movies.map((movie) => (
-            <div key={movie.id} className="movie-card">
-              <div className="poster-wrapper">
+            <div key={movie.id} className="delete-movie-card">
+              <div className="delete-poster-wrapper">
                 {movie.poster_url ? (
-                  <img src={movie.poster_url} alt={movie.title} className="poster" />
+                  <img src={movie.poster_url} alt={movie.title} className="delete-poster" />
                 ) : (
-                  <div className="poster placeholder">No Image</div>
+                  <div className="delete-poster-placeholder">No Image</div>
                 )}
               </div>
 
-              <div className="movie-info">
+              <div className="delete-movie-info">
                 <h3>{movie.title}</h3>
-                <p className="genre">{movie.genre}</p>
+                <p className="delete-genre">{movie.genre}</p>
 
                 <button
                   className="delete-button"
@@ -118,7 +117,7 @@ export default function DeleteMovies() {
         </div>
 
         {/* Pagination */}
-        <div className="pagination">
+        <div className="delete-pagination">
           <button onClick={() => setPage((p) => Math.max(p - 1, 1))} disabled={page === 1}>
             ⬅ Prev
           </button>

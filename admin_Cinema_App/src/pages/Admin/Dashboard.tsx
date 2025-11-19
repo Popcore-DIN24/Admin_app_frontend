@@ -4,7 +4,6 @@ import "./AdminDashboard.css";
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
 import { Link } from "react-router-dom";
-import MovieSearch from "../../components/MovieSearch";
 
 export default function AdminDashboard() {
   const employees = ["Minou Vahedinezhad", "John Doe", "Jack Smisth"]; 
@@ -44,10 +43,11 @@ export default function AdminDashboard() {
               <p>Movies</p>
             </Link>
 
-            <Link to="/admin/seats" className="stat-card">
-              <h2>Halls</h2>
+           <Link to="/admin/movies/1/schedule-add" className="stat-card">
+              <h2>Schedule</h2>
               <p>Management</p>
             </Link>
+
 
             <Link to="/admin/employees" className="stat-card">
               <h2>Team</h2>
@@ -78,11 +78,6 @@ export default function AdminDashboard() {
           {/* Calendar */}
           <div className="calendar-box">
             <Calendar />
-          </div>
-
-          {/* Calendar */}
-          <div className="">
-            <MovieSearch />
           </div>
 
           {/* Employees */}

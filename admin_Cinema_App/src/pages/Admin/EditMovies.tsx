@@ -148,12 +148,12 @@ export default function EditMovies() {
       <AdminNavbar />
 
       <div className="edit-container">
-        <h2 className="title">Edit Movies</h2>
+        <h2 className="edite-page-title">Edit Movies</h2>
 
         {successMessage && <div className="message success">{successMessage}</div>}
         {errorMessage && <div className="message error">{errorMessage}</div>}
 
-        <div className="form-group">
+        <div className="edite-form-group">
           <label>Select Movie</label>
           <select onChange={(e) => handleSelectMovie(e.target.value)}>
             <option value="">-- Choose a movie to edit --</option>
@@ -168,37 +168,37 @@ export default function EditMovies() {
         {selectedMovie && (
           <form onSubmit={handleSubmit} className="edit-form">
             {formData.poster_url && (
-              <div className="poster-wrapper">
-                <img src={formData.poster_url} alt="poster" className="poster" />
+              <div className="edite-poster-wrapper">
+                <img src={formData.poster_url} alt="poster" className="edite-poster" />
               </div>
             )}
 
-            <div className="form-group">
+            <div className="edite-form-group">
               <label>Title</label>
               <input type="text" name="title" value={formData.title} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
+            <div className="edite-form-group">
               <label>Description</label>
               <input type="text" name="description" value={formData.description} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
+            <div className="edite-form-group">
               <label>Genre</label>
               <input type="text" name="genre" value={formData.genre} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
+            <div className="edite-form-group">
               <label>Duration (minutes)</label>
               <input type="number" name="duration_minutes" value={formData.duration_minutes} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
+            <div className="edite-form-group">
               <label>Release Date</label>
               <input type="date" name="release_date" value={formData.release_date} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
+            <div className="edite-form-group">
               <label>Poster URL</label>
               <input type="text" name="poster_url" value={formData.poster_url} onChange={handleChange} />
             </div>

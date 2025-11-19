@@ -1,4 +1,3 @@
-// ...existing code...
 import React, { useMemo, useState } from "react";
 import "./MovieSearch.css";
 
@@ -14,13 +13,15 @@ interface MovieDetails {
   overview: string;
   releaseDate: string;
   runtime?: number;
-  // API may return strings or objects like { id, name }
   genres?: Array<string | GenreObject>;
-  // poster fields may vary by API
   posterUrl?: string;
   posterPath?: string;
   poster?: any;
   images?: any;
+}
+
+interface MovieSearchProps {
+  onSelectMovie?: (movie: MovieDetails) => void;
 }
 
 const TMDB_BASE = "https://image.tmdb.org/t/p/w500";
@@ -29,6 +30,7 @@ const FALLBACK_POSTER = "/no-poster.png";
 const extractPosterRaw = (movie?: MovieDetails): string => {
   if (!movie) return "";
   const anyMovie = movie as any;
+
   const candidates = [
     movie.posterUrl,
     movie.posterPath,
@@ -38,8 +40,9 @@ const extractPosterRaw = (movie?: MovieDetails): string => {
     anyMovie.poster?.path,
     anyMovie.images?.posters?.[0]?.file_path,
     anyMovie.images?.posters?.[0]?.filePath,
-    anyMovie.data?.poster, // defensive
+    anyMovie.data?.poster,
   ];
+
   for (const c of candidates) {
     if (typeof c === "string" && c.trim()) return c.trim();
   }
@@ -49,9 +52,7 @@ const extractPosterRaw = (movie?: MovieDetails): string => {
 const buildPosterUrl = (movie?: MovieDetails) => {
   const raw = extractPosterRaw(movie);
   if (!raw) return FALLBACK_POSTER;
-  // Already absolute
   if (/^https?:\/\//i.test(raw)) return raw;
-  // TMDB style or bare path -> ensure leading slash
   return `${TMDB_BASE}${raw.startsWith("/") ? raw : `/${raw}`}`;
 };
 
@@ -64,36 +65,12 @@ const normalizeGenres = (genres?: MovieDetails["genres"]) => {
   });
 };
 
-// --- NEW: helpers & state for saving
-const extractPosterPathFromRaw = (raw?: string): string | null => {
-  if (!raw) return null;
-  // If TMDB absolute url, remove base to get poster_path
-  try {
-    const trimmed = raw.trim();
-    if (trimmed.startsWith(TMDB_BASE)) {
-      return trimmed.slice(TMDB_BASE.length) || null;
-    }
-    // if it's a full URL that contains '/t/p/w' pattern, try to extract trailing path
-    const tMatch = trimmed.match(/\/t\/p\/w\d+\/(.*)$/);
-    if (tMatch && tMatch[1]) return `/${tMatch[1]}`;
-    // if it's already a path like '/abc.jpg' or 'abc.jpg'
-    return trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
-  } catch {
-    return null;
-  }
-};
-// ...existing code...
-const MovieSearch: React.FC = () => {
+const MovieSearch: React.FC<MovieSearchProps> = ({ onSelectMovie }) => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const [movie, setMovie] = useState<MovieDetails |undefined>(undefined);
+  const [movie, setMovie] = useState<MovieDetails | undefined>(undefined);
   const [error, setError] = useState("");
   const [matchType, setMatchType] = useState("");
-
-  // saving states
-  const [saving, setSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState("");
-  const [savedMovie, setSavedMovie] = useState<any>(null);
 
   const posterSrc = useMemo(() => buildPosterUrl(movie), [movie]);
   const genreList = useMemo(() => normalizeGenres(movie?.genres), [movie?.genres]);
@@ -119,73 +96,53 @@ const MovieSearch: React.FC = () => {
       if (!response.ok) throw new Error("Search failed");
 
       const data = await response.json();
-
       if (!data.success || !data.movie) {
         setError("No matching movie found.");
         return;
       }
 
-      // store movie raw; helpers will handle poster and genres variations
       setMovie(data.movie);
       setMatchType(data.matchType ?? "");
-    } catch (err) {
+    } catch {
       setError("Could not fetch movies.");
     } finally {
       setLoading(false);
     }
   };
 
-  // --- NEW: Save movie to backend
-  const handleSave = async () => {
-    if (!movie) return;
-    setSaving(true);
-    setSaveMessage("");
-    setSavedMovie(null);
+  const handleDirectSave = async () => {
+  if (!movie) {
+    alert("No movie selected to save.");
+    return;
+  }
 
-    // Build TMDB-like payload expected by backend
-    const posterRaw = extractPosterRaw(movie);
-    const poster_path = extractPosterPathFromRaw(posterRaw);
+  try {
 
-    const genresPayload = (movie.genres || []).map((g) =>
-      typeof g === "string" ? { name: g } : (g as GenreObject)
+    const response = await fetch(
+      "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/movies/save",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ movie }),
+      }
     );
 
-    const payloadMovie = {
-      original_title: (movie as any).original_title ?? movie.title,
-      overview: movie.overview,
-      runtime: movie.runtime,
-      release_date: (movie as any).release_date ?? movie.releaseDate,
-      genres: genresPayload,
-      poster_path: poster_path,
-    };
-
-    try {
-      const res = await fetch("https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/movies/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          movie: payloadMovie,
-          employee_id: null,
-          added_by_employee_id: null,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        setSaveMessage(data.error ?? "Save failed");
-      } else {
-        setSaveMessage(data.message ?? "Saved successfully");
-        setSavedMovie(data.saved ?? data);
-      }
-    } catch (err) {
-      setSaveMessage("Could not save movie.");
-    } finally {
-      setSaving(false);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Failed to save movie");
     }
-  };
-  // ...existing code...
+
+    alert("Movie saved successfully!");
+  } catch (err: any) {
+    console.error("Save movie error:", err);
+    alert("Error saving movie: " + err.message);
+  }
+};
+
   return (
-    <div className="search-container" role="region" aria-label="Movie search">
+    <div className="search-container">
       <h2 className="search-title">Search Movies</h2>
 
       <div className="search-box">
@@ -195,9 +152,8 @@ const MovieSearch: React.FC = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="search-input"
-          aria-label="Movie name"
         />
-        <button onClick={handleSearch} className="search-button" aria-label="Search">
+        <button onClick={handleSearch} className="search-button">
           Search
         </button>
       </div>
@@ -212,15 +168,13 @@ const MovieSearch: React.FC = () => {
       )}
 
       {movie && (
-        <div className="movie-card" aria-live="polite">
+        <div className="search-movie-card">
           <img
             src={posterSrc}
-            alt={movie.title ?? "Movie poster"}
+            alt={movie.title}
             className="movie-poster"
-            loading="lazy"
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
-              // avoid infinite loops if fallback missing
               if (target.src !== FALLBACK_POSTER) {
                 target.onerror = null;
                 target.src = FALLBACK_POSTER;
@@ -231,8 +185,11 @@ const MovieSearch: React.FC = () => {
           <div className="movie-info">
             <h3>{movie.title}</h3>
             <p className="date">
-              {movie.releaseDate ? new Date(movie.releaseDate).toLocaleDateString() : "Unknown"}
+              {movie.releaseDate
+                ? new Date(movie.releaseDate).toLocaleDateString()
+                : "Unknown"}
             </p>
+
             <p className="overview">{movie.overview}</p>
 
             {genreList.length > 0 && (
@@ -241,31 +198,35 @@ const MovieSearch: React.FC = () => {
               </p>
             )}
 
-            {movie.runtime != null && (
+            {movie.runtime && (
               <p className="runtime">
                 <strong>Runtime:</strong> {movie.runtime} min
               </p>
             )}
 
-            {/* NEW: Save button + status */}
-            <div style={{ marginTop: 12 }}>
+            <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
               <button
-                onClick={handleSave}
                 className="search-button"
-                disabled={saving}
-                aria-label="Save movie"
-                title="Save this movie to database"
-              >
-                {saving ? "Saving..." : "Save Movie"}
+                onClick={() => {
+                if (onSelectMovie && movie) {
+                  const movieWithPoster = {
+                    ...movie,
+                    posterUrl: buildPosterUrl(movie) 
+                  };
+                  onSelectMovie(movieWithPoster);
+                }
+              }}
+            >
+                Edite this Movie
               </button>
-              {saveMessage && <span style={{ marginLeft: 10 }}>{saveMessage}</span>}
-            </div>
 
-            {savedMovie && (
-              <pre style={{ marginTop: 10, maxHeight: 200, overflow: "auto" }}>
-                {JSON.stringify(savedMovie, null, 2)}
-              </pre>
-            )}
+              <button
+                className="search-button"
+                onClick={handleDirectSave}
+              >
+                Save Directly
+              </button>
+            </div>
           </div>
         </div>
       )}
