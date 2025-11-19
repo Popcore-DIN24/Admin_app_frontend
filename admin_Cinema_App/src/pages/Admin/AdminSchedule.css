@@ -1,0 +1,99 @@
+.admin-container {
+  max-width: 650px;
+  margin: auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+  
+}
+.admin-page {
+  padding-top: 90px; 
+  padding-bottom: 40px; 
+  background: #f8f9fa; 
+  min-height: 100vh;
+}
+.title {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+select, input[type="date"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.date-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-add {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.selected-items {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 6px 12px;
+  background: #e5e5e5;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.chip .remove {
+  margin-left: 8px;
+  cursor: pointer;
+  color: red;
+}
+
+.time-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.time-btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+
+.time-btn.active {
+  background: #28a745;
+  color: white;
+}
+
+.btn-submit {
+  margin-top: 25px;
+  width: 100%;
+  background: #28a745;
+  padding: 12px;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+

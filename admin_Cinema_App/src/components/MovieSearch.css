@@ -1,7 +1,8 @@
 .search-container {
   width: 100%;
-  padding: 20px;
+  max-width: 300px;
   color: white;
+  
 }
 
 .search-title {
@@ -26,7 +27,7 @@
 }
 
 .search-button {
-  padding: 12px 20px;
+  padding: 12px 10px;
   background: #1d9bf0;
   border: none;
   color: white;
@@ -55,8 +56,8 @@
   gap: 18px;
 }
 
-.movie-card {
-  background: #0f1c2e;
+.search-movie-card {
+  background: rgba(255,255,255,0.05);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
