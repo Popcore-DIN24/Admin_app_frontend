@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import "./MovieSearch.css";
+import api from "../api/axios";
 
 interface GenreObject {
   id?: number;
@@ -82,20 +83,17 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSelectMovie }) => {
     setError("");
     setMovie(undefined);
     setMatchType("");
+    const payload={ movieName: query };
 
     try {
-      const response = await fetch(
-        "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/movies/search",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ movieName: query }),
-        }
+      const response = await api.post(
+        "/api/movies/search",
+        payload
       );
 
-      if (!response.ok) throw new Error("Search failed");
+      if (!response.status ) throw new Error("Search failed");
 
-      const data = await response.json();
+      const data = await response.data;
       if (!data.success || !data.movie) {
         setError("No matching movie found.");
         return;
@@ -117,20 +115,14 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ onSelectMovie }) => {
   }
 
   try {
-
-    const response = await fetch(
-      "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/movies/save",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ movie }),
-      }
+    const movieToSave = {movie};
+    const response = await api.post(
+      "/api/movies/save",
+      movieToSave
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    if (!response.status) {
+      const errorText = await response.data;
       throw new Error(errorText || "Failed to save movie");
     }
 

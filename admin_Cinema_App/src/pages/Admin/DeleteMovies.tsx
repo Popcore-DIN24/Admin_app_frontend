@@ -3,6 +3,7 @@ import "./DeleteMovies.css";
 import type { Movie } from "../../types/Movie";
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
+import api from "../../api/axios";
 
 export default function DeleteMovies() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -18,10 +19,10 @@ export default function DeleteMovies() {
     const fetchMovies = async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies?page=${page}&limit=${limit}`
+        const res = await api.get(
+          `/api/v6/movies?page=${page}&limit=${limit}`
         );
-        const data = await res.json();
+        const data = await res.data;
 
         if (Array.isArray(data)) {
           setMovies(data);
@@ -53,12 +54,11 @@ export default function DeleteMovies() {
     setErrorMessage("");
 
     try {
-      const res = await fetch(
-        `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/${movie.id}`,
-        { method: "DELETE" }
+      const res = await api.delete(
+        `/api/v6/movies/${movie.id}`
       );
 
-      if (res.ok) {
+      if (res.status >= 200 && res.status < 300) {
         setSuccessMessage(`🗑️ "${movie.title}" deleted successfully!`);
         setMovies((prev) => prev.filter((m) => m.id !== movie.id));
 
