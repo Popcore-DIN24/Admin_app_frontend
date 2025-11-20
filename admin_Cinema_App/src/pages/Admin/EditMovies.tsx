@@ -4,6 +4,7 @@ import "./EditMovies.css";
 import type { Movie } from "../../types/Movie";
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
+import api from "../../api/axios";
 
 export default function EditMovies() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -29,10 +30,10 @@ export default function EditMovies() {
     const fetchMovies = async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies?page=${page}&limit=${limit}`
+        const res = await api.get(
+          `/api/v6/movies?page=${page}&limit=${limit}`
         );
-        const data = await res.json();
+        const data = await res.data;
 
         if (Array.isArray(data)) {
           setMovies(data);
@@ -77,18 +78,15 @@ export default function EditMovies() {
     setLoading(true);
     setSuccessMessage("");
     setErrorMessage("");
+    const payload={ ...formData };
 
     try {
-      const res = await fetch(
-        `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/${selectedMovie.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
+      const res = await api.put(
+        `/api/v6/movies/${selectedMovie.id}`,
+        payload
       );
 
-      if (res.ok) {
+      if (res.status >= 200 && res.status < 300) {
         setSuccessMessage("🎬 Movie updated successfully!");
         const updatedList = movies.map((m) =>
           m.id === selectedMovie.id ? { ...m, ...formData } : m
@@ -96,7 +94,7 @@ export default function EditMovies() {
         setMovies(updatedList);
         setTimeout(() => setSuccessMessage(""), 3000);
       } else {
-        const errorData = await res.json();
+        const errorData = await res.data;
         setErrorMessage(errorData.error || "Failed to update movie.");
       }
     } catch (error) {
@@ -120,19 +118,18 @@ export default function EditMovies() {
     setErrorMessage("");
 
     try {
-      const res = await fetch(
-        `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/${selectedMovie.id}`,
-        { method: "DELETE" }
+      const res = await api.delete(
+        `/api/v6/movies/${selectedMovie.id}`
       );
 
-      if (res.ok) {
+      if (res.status >= 200 && res.status < 300) {
         setSuccessMessage("🗑️ Movie deleted successfully!");
         const newList = movies.filter((m) => m.id !== selectedMovie.id);
         setMovies(newList);
         setSelectedMovie(null);
         setTimeout(() => setSuccessMessage(""), 3000);
       } else {
-        const errorData = await res.json();
+        const errorData = await res.data;
         setErrorMessage(errorData.error || "Failed to delete movie.");
       }
     } catch (err) {

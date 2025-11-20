@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "./axios";
+import api from "../../api/axios";
 import MultiDatePicker from "./MultiDatePicker";
 import Select from "react-select";
 import "./AdminSchedule.css";
@@ -83,8 +83,11 @@ const AdminSchedule: React.FC = () => {
     const interval = 2;
 
     for (let h = startHour; h < endHour; h += interval) {
-      slots.push(`${h.toString().padStart(2, "0")}:00 - ${(h + interval).toString().padStart(2, "0")}:00`);
+      const startLabel = `${h.toString().padStart(2, "0")}:00`;
+      const endLabel = `${(h + interval).toString().padStart(2, "0")}:00`;
+      slots.push(`${startLabel} - ${endLabel}`);
     }
+
     setTimeSlots(slots);
   }, [selectedHall]);
 
@@ -97,42 +100,83 @@ const AdminSchedule: React.FC = () => {
 
   // --- Submit Showtimes ---
   const handleSubmit = async () => {
-    if (!selectedMovie || !selectedHall || dates.length === 0 || selectedTimes.length === 0) {
-      alert("Please select movie, hall, at least one date, and at least one time.");
-      return;
-    }
+  if (!selectedMovie || !selectedHall || dates.length === 0 || selectedTimes.length === 0) {
+    alert("Please select movie, hall, at least one date, and at least one time.");
+    return;
+  }
 
-    try {
-      for (const date of dates) {
-        for (const slot of selectedTimes) {
-          const [startHour, endHour] = slot.split(" - ").map(t => parseInt(t.split(":")[0], 10));
+  try {
+    for (const date of dates) {
+      for (const slot of selectedTimes) {
+        const [startHour, endHour] = slot
+          .split(" - ")
+          .map(t => parseInt(t.split(":")[0], 10));
 
-          const start = new Date(date);
-          start.setHours(startHour, 0, 0, 0);
+        const start = new Date(date);
+        start.setHours(startHour, 0, 0, 0);
 
-          const end = new Date(date);
-          end.setHours(endHour, 0, 0, 0);
+        const end = new Date(date);
+        end.setHours(endHour, 0, 0, 0);
 
-          await api.post(`/api/v6/movies/${selectedMovie}/showtimes`, {
+        // 🔥 Prevent invalid durations on frontend
+        const diffHours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+        if (diffHours <= 0 || diffHours > 6) {
+          alert(`Invalid time range: ${slot}. Max duration allowed is 6 hours.`);
+          return;
+        }
+
+        // 🔥 API call with error trapping
+        try {
+          await api.post(`api/v6/movies/${selectedMovie}/showtimes`, {
             hall_id: selectedHall,
             start_time: start.toISOString(),
             end_time: end.toISOString(),
             price_amount: 10
           });
+        } catch (err: any) {
+          console.error("Showtime creation error:", err);
+
+          // 🔥 Detect conflict response
+          if (err.response?.status === 409) {
+            const conflict = err.response.data.conflict?.[0];
+
+            alert(
+              `⛔ Overlapping showtime!\n` +
+              `Hall: ${selectedHall}\n` +
+              `Existing showtime:\n` +
+              `Start: ${new Date(conflict.start_time).toLocaleString()}\n` +
+              `End: ${new Date(conflict.end_time).toLocaleString()}`
+            );
+          } else {
+            alert("Unknown error creating showtime.");
+          }
+
+          return; // stop processing further
         }
       }
-      alert("Showtimes added successfully!");
-      // Reset selections
-      setDates([]);
-      setSelectedTimes([]);
-      setSelectedMovie(null);
-      setSelectedHall(null);
-      setSelectedTheater(null);
-    } catch (err) {
-      console.error(err);
-      alert("Error adding showtime.");
     }
-  };
+
+    alert("Showtimes added successfully!");
+
+    // Reset form
+    setDates([]);
+    setSelectedTimes([]);
+    setSelectedMovie(null);
+    setSelectedHall(null);
+    setSelectedTheater(null);
+  } catch (err) {
+    console.error(err);
+    alert("Error adding showtime.");
+  }
+};
+useEffect(() => {
+  const token = localStorage.getItem("adminToken");
+  if (!token) {
+    window.location.href = "/admin/login";
+  }
+}, []);
+
+  ;
 
   return (
 

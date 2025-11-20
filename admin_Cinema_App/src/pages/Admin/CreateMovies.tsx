@@ -3,6 +3,7 @@ import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
 import "./CreateMovies.css";
 import MovieSearch from "../../components/MovieSearch";
+import api from "../../api/axios";
 
 export default function CreateMovies() {
   const [formData, setFormData] = useState({
@@ -23,8 +24,11 @@ export default function CreateMovies() {
     "thriller","animation","adventure","documentary"
   ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, multiple, selectedOptions } = e.target as HTMLSelectElement;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const target = e.target as HTMLInputElement & HTMLSelectElement;
+    const { name, value, multiple, selectedOptions } = target;
     if (multiple) {
       const values = Array.from(selectedOptions, (option) => option.value);
       setFormData({ ...formData, [name]: values });
@@ -38,7 +42,7 @@ export default function CreateMovies() {
       title: movie.title || "",
       description: movie.overview || "",
       genre: movie.genres ? movie.genres.map((g: any) => (typeof g === "string" ? g : g.name)) : [],
-      duration_minutes: movie.runtime || "",
+      duration_minutes: movie.runtime ? String(movie.runtime) : "",
       release_date: movie.releaseDate || "",
       poster_url: movie.posterUrl || movie.posterPath || "",
     });
@@ -59,17 +63,22 @@ export default function CreateMovies() {
     setErrorMessage("");
     setLoading(true);
 
-    try {
-      const res = await fetch(
-        "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      genre: formData.genre,
+      duration_minutes: Number(formData.duration_minutes),
+      release_date: formData.release_date || undefined,
+      poster_url: formData.poster_url || undefined,
+    };
 
-      if (res.ok) {
+    try {
+      // use axios instance 'api' (ensure baseURL is configured in src/api/axios)
+      const res = await api.post("/api/v6/movies", payload);
+
+      const data = res.data;
+
+      if (res.status >= 200 && res.status < 300) {
         setSuccessMessage("🎬 Movie added successfully!");
         setFormData({
           title: "",
@@ -81,11 +90,16 @@ export default function CreateMovies() {
         });
         setTimeout(() => setSuccessMessage(""), 3000);
       } else {
-        setErrorMessage("Failed to add movie. Please try again.");
+        setErrorMessage(data?.message || "Failed to add movie. Please try again.");
       }
-    } catch (error) {
-      console.error("Error adding movie:", error);
-      setErrorMessage("An error occurred while adding the movie.");
+    } catch (err: any) {
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.message ||
+        "An error occurred while adding the movie.";
+      console.error("Add movie error:", err);
+      setErrorMessage(msg);
     } finally {
       setLoading(false);
     }
