@@ -6,7 +6,7 @@ import Reports from '../../components/Reports';
 import type { Theater, Hall } from '../../types/index';
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
-import './CinemaManagement.css';
+import './Cinemamanagement.css';
 
 export default function Cinemamanagement  ():React.JSX.Element  {
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
