@@ -7,7 +7,7 @@ interface ShowTime {
   movie_title: string;
   start_time: string;
   end_time: string;
-  price: number;
+  price_amount: number;
 }
 
 interface Props {
@@ -72,7 +72,7 @@ const ShowTimeTable: React.FC<Props> = ({ hall, date }) => {
               <td>{st.movie_title}</td>
               <td>{new Date(st.start_time).toLocaleString()}</td>
               <td>{new Date(st.end_time).toLocaleString()}</td>
-              <td>{st.price}</td>
+              <td>{st.price_amount}</td>
             </tr>
           ))}
         </tbody>
