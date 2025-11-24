@@ -6,9 +6,9 @@ import Reports from '../../components/Reports';
 import type { Theater, Hall } from '../../types/index';
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
-import './Cinemamanagement.css';
+import './CinemaManagement.css';
 
-const Cinemamanagement: React.FC = () => {
+export default function Cinemamanagement  ():React.JSX.Element  {
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
   const [selectedHall, setSelectedHall] = useState<Hall | null>(null);
 
@@ -53,4 +53,3 @@ const Cinemamanagement: React.FC = () => {
   );
 };
 
-export default Cinemamanagement;
