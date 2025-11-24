@@ -49,10 +49,11 @@ export default function AdminDashboard() {
             </Link>
 
 
-            <Link to="/admin/employees" className="stat-card">
-              <h2>Team</h2>
+            <Link to="/admin/halls" className="stat-card">
+              <h2>Halls</h2>
               <p>Management</p>
             </Link>
+
           </div>
 
           {/* Admin Actions */}

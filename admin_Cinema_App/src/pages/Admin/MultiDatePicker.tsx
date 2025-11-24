@@ -27,10 +27,8 @@ const MultiDatePicker: React.FC<Props> = ({ onChange }) => {
     let updated;
 
     if (selectedDates.includes(iso)) {
-      // remove if clicked again
       updated = selectedDates.filter(d => d !== iso);
     } else {
-      // add new date
       updated = [...selectedDates, iso];
     }
 
@@ -66,12 +64,10 @@ const MultiDatePicker: React.FC<Props> = ({ onChange }) => {
           <div key={d} className="multi-calendar-day-name">{d}</div>
         ))}
 
-        {/* Empty slots before first day */}
         {[...Array(startDay)].map((_, i) => (
           <div key={"empty-" + i} className="multi-calendar-empty"></div>
         ))}
 
-        {/* Days */}
         {Array.from({ length: totalDays }, (_, i) => i + 1).map(day => {
           const iso = new Date(
             currentMonth.getFullYear(),
