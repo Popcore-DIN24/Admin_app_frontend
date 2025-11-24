@@ -6,4 +6,5 @@
   duration_minutes: number | string;
   release_date: string;
   poster_url: string;
+  price_amount?: number;
 }

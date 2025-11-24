@@ -8,6 +8,8 @@ import MoviesList from "../pages/Admin/MoviesList"
 import AssignSchedule from '../pages/Admin/AssignSchedule';
 import MovieSchedule from '../pages/Admin/MovieSchedule';
 import ScheduleMovieWrapper from '../pages/Admin/ScheduleMovieWrapper';
+import CinemaManagement from "../pages/Admin/cinemamanagement";
+
 
 
 export default function AdminRoutes() {
@@ -23,7 +25,7 @@ export default function AdminRoutes() {
       <Route path="movies/:id/schedule" element={<AssignSchedule />} />
       <Route path="movies/:id/schedule-view" element={<MovieSchedule />}/>
       <Route path="movies/:id/schedule-add" element={<ScheduleMovieWrapper />} />
-
+      <Route path="halls" element={<CinemaManagement />} />
 
 
 

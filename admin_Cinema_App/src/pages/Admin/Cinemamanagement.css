@@ -1,0 +1,136 @@
+/* ====================== CINEMA DASHBOARD STYLE ====================== */
+.cinema-dashboard-page {
+  background: linear-gradient(135deg, #020611 0%, #0a0f24 100%);
+  min-height: 100vh;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  padding-top: 60px;
+}
+
+/* Main container */
+.cinema-dashboard-container {
+  display: flex;
+  gap: 40px;
+  padding: 40px 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Panels (TheaterSelect, HallTable, ShowTimeTable, Reports) */
+.cinema-panel {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 30px;
+  border-radius: 18px;
+  min-width: 300px;
+  flex: 1 1 400px;
+  box-shadow: 0 0 25px rgba(0, 153, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: 0.3s ease-in-out;
+}
+
+.cinema-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 35px rgba(88, 166, 255, 0.3);
+}
+
+/* Panel headers */
+.cinema-panel h1,
+.cinema-panel h2,
+.cinema-panel h3 {
+  color: #8ab4ff;
+  text-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tables inside panels */
+.cinema-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cinema-panel table th,
+.cinema-panel table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ====================== BUTTONS ====================== */
+/* General panel buttons */
+.cinema-panel button,
+.cinema-btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #58a6ff, #0099ff);
+  color: #040d25; 
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.cinema-panel button:hover,
+.cinema-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+}
+
+/* ====================== SELECT INPUTS ====================== */
+.cinema-panel select {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: white; 
+  outline: none;
+  margin-bottom: 15px;
+  transition: 0.2s;
+}
+
+.cinema-panel select:focus {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 15px rgba(88, 166, 255, 0.3);
+  color: white;
+}
+
+.cinema-panel select option {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+/* ShowTime and Reports cards spacing */
+.showtime-panel,
+.reports-panel {
+  margin-top: 25px;
+}
+
+/* ====================== LIST ITEMS ====================== */
+.cinema-panel ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.cinema-panel li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: 0.25s;
+}
+
+.cinema-panel li:hover {
+  background: rgba(88, 166, 255, 0.12);
+  transform: translateX(5px);
+}
