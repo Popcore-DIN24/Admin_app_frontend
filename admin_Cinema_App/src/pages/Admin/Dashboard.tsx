@@ -63,11 +63,13 @@ export default function AdminDashboard() {
             </div>
 
             <div className="progress-table">
-              <div className="row"><span>View Payments</span></div>
+              <div className="row"><span>
+                <Link to="/admin/stats">View Payment Stats</Link></span></div>
               <div className="row"><span>Add New Movie</span></div>
               <div className="row"><span>Edit Movies</span></div>
               <div className="row"><span>Manage Halls</span></div>
-              <div className="row"><span>Manage Employees</span></div>
+              <div className="row"><span>
+                <Link to="/admin/creation">Manage Employees</Link></span></div>
             </div>
           </div>
 

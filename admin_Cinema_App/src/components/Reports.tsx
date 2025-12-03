@@ -1,72 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import api from '../api/axios';
-import type { Theater } from '../types/index';
+import { useEffect, useState } from "react";
 
-interface Report {
-  date: string;
-  total_tickets: number;
-  total_revenue: number;
+interface ReportsProps {
+  theaterId: number;
+  hallId: number;
 }
 
-interface Props {
-  theater: Theater;
-}
-
-const Reports: React.FC<Props> = ({ theater }) => {
-  const [reports, setReports] = useState<Report[]>([]);
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+export default function Reports({ theaterId, hallId }: ReportsProps) {
+  const [totalTickets, setTotalTickets] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReports = async () => {
+    async function fetchTotalTickets() {
       try {
-        const params: any = {};
-        if (startDate) params.start_date = startDate;
-        if (endDate) params.end_date = endDate;
+        const res = await fetch(
+          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/reports/theaters/${theaterId}/halls/${hallId}/tickets/total`
+        );
 
-        const res = await api.get(`/api/v6/theaters/${theater.id}/reports`, { params });
-        setReports(res.data.data || []);
+        const data = await res.json();
+
+        if (data?.total_sold !== undefined) {
+          setTotalTickets(data.total_sold);
+        }
       } catch (err) {
-        console.error('Error fetching reports:', err);
-        setReports([]);
+        console.error("❌ Error loading ticket report:", err);
+      } finally {
+        setLoading(false);
       }
-    };
+    }
 
-    fetchReports();
-  }, [theater, startDate, endDate]);
+    fetchTotalTickets();
+  }, [theaterId, hallId]);
+
+  if (loading) return <p>Loading ticket report...</p>;
 
   return (
     <div>
-      <h3>Reports for {theater.name}</h3>
+      <h2>Hall Report</h2>
+      <p><strong>Theater ID:</strong> {theaterId}</p>
+      <p><strong>Hall ID:</strong> {hallId}</p>
 
-      <div style={{ marginBottom: '15px', display: 'flex', gap: '10px', alignItems: 'center' }}>
-        <label>Start Date:</label>
-        <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-
-        <label>End Date:</label>
-        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Total Tickets</th>
-            <th>Total Revenue (€)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reports.map((r, idx) => (
-            <tr key={idx}>
-              <td>{r.date}</td>
-              <td>{r.total_tickets}</td>
-              <td>{r.total_revenue}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h3>Total Tickets Sold:</h3>
+      <p style={{ fontSize: "24px", fontWeight: "bold" }}>
+        {totalTickets ?? 0}
+      </p>
     </div>
   );
-};
-
-export default Reports;
+}

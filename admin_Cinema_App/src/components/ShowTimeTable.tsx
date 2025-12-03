@@ -28,7 +28,7 @@ const ShowTimeTable: React.FC<Props> = ({ hall, date }) => {
         if (endDate) params.end_date = endDate;
 
         const res = await api.get(`/api/v6/halls/${hall.id}/showtimes`, { params });
-        setShowtimes(res.data.data || []);` `
+        setShowtimes(res.data.showtimes || []);` `
       } catch (err) {
         console.error('Error fetching showtimes:', err);
         setShowtimes([]);

@@ -10,6 +10,8 @@ import MovieSchedule from '../pages/Admin/MovieSchedule';
 import ScheduleMovieWrapper from '../pages/Admin/ScheduleMovieWrapper';
 
 import Cinemamanagement from '../pages/Admin/Cinemamanagement'
+import CreateAdmin from '../pages/Admin/CreateNewAdmin';
+import TicketStatistics from '../pages/Admin/Statistics';
 
 
 
@@ -27,6 +29,8 @@ export default function AdminRoutes() {
       <Route path="movies/:id/schedule-view" element={<MovieSchedule />}/>
       <Route path="movies/:id/schedule-add" element={<ScheduleMovieWrapper />} />
       <Route path="halls" element={<Cinemamanagement />} />
+      <Route path="creation" element={<CreateAdmin/>}/>
+      <Route path="stats" element={<TicketStatistics/>}/>
 
 
 
