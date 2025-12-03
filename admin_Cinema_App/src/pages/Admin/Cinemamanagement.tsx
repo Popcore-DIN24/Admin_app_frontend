@@ -10,7 +10,7 @@ import './Cinemamanagement.css';
 
 export default function Cinemamanagement  ():React.JSX.Element  {
   const [selectedTheater, setSelectedTheater] = useState<Theater | null>(null);
-  const [selectedHall, setSelectedHall] = useState<Hall | null>(null);
+  const [selectedHall, setSelectedHall] = useState<Hall>(0 as unknown as Hall);
 
   console.log('Selected Theater:', selectedTheater);
   console.log('Selected Hall:', selectedHall);
@@ -43,7 +43,9 @@ export default function Cinemamanagement  ():React.JSX.Element  {
         {/* Reports */}
         {selectedTheater && (
           <div className="cinema-panel reports-panel">
-            <Reports theater={selectedTheater} />
+            <Reports
+             theaterId={Number(selectedTheater.id)} 
+             hallId={Number(selectedHall.id)}/>
           </div>
         )}
       </div>
