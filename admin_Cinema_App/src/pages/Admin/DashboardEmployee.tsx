@@ -6,7 +6,7 @@ import LoginFooter from "../Auth/LoginFooter";
 import { Link } from "react-router-dom";
 
 export default function AdminDashboard() {
-  const employees = ["Minou Vahedinezhad", "John Doe", "Jack Smisth"]; 
+  // const employees = ["Minou Vahedinezhad", "John Doe", "Jack Smisth"]; 
 
   return (
     <div className="admin-dashboard-page">  
@@ -56,22 +56,7 @@ export default function AdminDashboard() {
 
           </div>
 
-          {/* Admin Actions */}
-          <div className="progress-card">
-            <div className="progress-header">
-              <h3>Quick Actions</h3>
-            </div>
-
-            <div className="progress-table">
-              <div className="row"><span>
-                <Link to="/admin/stats">View Payment Stats</Link></span></div>
-              <div className="row"><span>Add New Movie</span></div>
-              <div className="row"><span>Edit Movies</span></div>
-              <div className="row"><span>Manage Halls</span></div>
-              <div className="row"><span>
-                <Link to="/admin/creation">Manage Employees</Link></span></div>
-            </div>
-          </div>
+          
 
         </div> {/* left-column */}
 
@@ -83,20 +68,6 @@ export default function AdminDashboard() {
             <Calendar />
           </div>
 
-          {/* Employees */}
-          <div className="new-applicants-box">
-            <div className="na-header">
-              <h3>Employees</h3>
-            </div>
-
-            {employees.map((emp, i) => (
-              <div className="applicant" key={i}>
-                <div className="info">
-                  <h4>{emp}</h4>
-                </div>
-              </div>
-            ))}
-          </div>
 
         </div> {/* right-column */}
 

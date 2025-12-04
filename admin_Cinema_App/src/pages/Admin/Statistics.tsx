@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import AdminNavbar from "../../components/AdminNavbar";
+import LoginFooter from "../Auth/LoginFooter";
+import "./Statistics.css";
 import {
   LineChart,
   Line,
@@ -108,124 +111,128 @@ export default function TicketStatistics() {
   }, [selectedTheater, selectedHall, dateFilter, customStart, customEnd]);
 
   return (
-    <div className="p-6 bg-white shadow rounded-2xl space-y-6">
-      <h2 className="text-2xl font-bold">Ticket Sales & Revenue Report</h2>
+    <div>
+      <AdminNavbar />
+      <div className="stats-container">
 
-      {/* Theater & Hall Selection */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm text-gray-600 mb-1">Select Theater</label>
-          <select
-            className="w-full border rounded p-2"
-            value={selectedTheater ?? ""}
-            onChange={(e) => setSelectedTheater(Number(e.target.value))}
-          >
-            {theaters.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <h2 className="stats-title">Ticket Sales & Revenue Report</h2>
 
-        <div>
-          <label className="block text-sm text-gray-600 mb-1">Select Hall</label>
-          <select
-            className="w-full border rounded p-2"
-            value={selectedHall ?? ""}
-            onChange={(e) => setSelectedHall(Number(e.target.value))}
-          >
-            {halls.map((h) => (
-              <option key={h.id} value={h.id}>
-                {h.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Date Filter */}
-      <div className="grid grid-cols-4 gap-4 mt-2">
-        <button
-          className={`p-2 rounded ${dateFilter === "today" ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-          onClick={() => setDateFilter("today")}
-        >
-          Today
-        </button>
-        <button
-          className={`p-2 rounded ${dateFilter === "week" ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-          onClick={() => setDateFilter("week")}
-        >
-          This Week
-        </button>
-        <button
-          className={`p-2 rounded ${dateFilter === "month" ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-          onClick={() => setDateFilter("month")}
-        >
-          This Month
-        </button>
-        <button
-          className={`p-2 rounded ${dateFilter === "custom" ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-          onClick={() => setDateFilter("custom")}
-        >
-          Custom
-        </button>
-      </div>
-
-      {dateFilter === "custom" && (
-        <div className="grid grid-cols-2 gap-4 mt-2">
-          <input
-            type="date"
-            className="border rounded p-2"
-            value={customStart}
-            onChange={(e) => setCustomStart(e.target.value)}
-          />
-          <input
-            type="date"
-            className="border rounded p-2"
-            value={customEnd}
-            onChange={(e) => setCustomEnd(e.target.value)}
-          />
-        </div>
-      )}
-
-      {/* Stats Display */}
-      {loading ? (
-        <p>Loading statistics...</p>
-      ) : !stats ? (
-        <p>No data available.</p>
-      ) : (
-        <>
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            <div className="p-4 bg-gray-100 rounded-xl">
-              <p className="text-gray-600">Total Tickets Sold</p>
-              <p className="text-3xl font-bold">{stats.total_tickets}</p>
-            </div>
-
-            <div className="p-4 bg-gray-100 rounded-xl">
-              <p className="text-gray-600">Total Revenue</p>
-              <p className="text-3xl font-bold">
-                £{stats.total_revenue.toLocaleString()}
-              </p>
-            </div>
+        {/* Theater & Hall Selection */}
+        <div className="row-2">
+          <div className="field">
+            <label>Select Theater</label>
+            <select
+              value={selectedTheater ?? ""}
+              onChange={(e) => setSelectedTheater(Number(e.target.value))}
+            >
+              {theaters.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Graph */}
-            <div className="mt-4">
-                <ResponsiveContainer width="100%" height={320}>
-                    <LineChart data={stats.data_points}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="tickets_sold" stroke="#8884d8" name="Tickets Sold" />
-                    <Line type="monotone" dataKey="revenue" stroke="#82ca9d" name="Revenue (₦)" />
-                    </LineChart>
-                </ResponsiveContainer>
+          <div className="field">
+            <label>Select Hall</label>
+            <select
+              value={selectedHall ?? ""}
+              onChange={(e) => setSelectedHall(Number(e.target.value))}
+            >
+              {halls.map((h) => (
+                <option key={h.id} value={h.id}>
+                  {h.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Date Filter */}
+        <div className="date-filter">
+          <button
+            className={dateFilter === "today" ? "btn active" : "btn"}
+            onClick={() => setDateFilter("today")}
+          >
+            Today
+          </button>
+
+          <button
+            className={dateFilter === "week" ? "btn active" : "btn"}
+            onClick={() => setDateFilter("week")}
+          >
+            This Week
+          </button>
+
+          <button
+            className={dateFilter === "month" ? "btn active" : "btn"}
+            onClick={() => setDateFilter("month")}
+          >
+            This Month
+          </button>
+
+          <button
+            className={dateFilter === "custom" ? "btn active" : "btn"}
+            onClick={() => setDateFilter("custom")}
+          >
+            Custom
+          </button>
+        </div>
+
+        {dateFilter === "custom" && (
+          <div className="row-2">
+            <input
+              type="date"
+              value={customStart}
+              onChange={(e) => setCustomStart(e.target.value)}
+            />
+            <input
+              type="date"
+              value={customEnd}
+              onChange={(e) => setCustomEnd(e.target.value)}
+            />
+          </div>
+        )}
+
+        {/* Stats Display */}
+        {loading ? (
+          <p>Loading statistics...</p>
+        ) : !stats ? (
+          <p>No data available.</p>
+        ) : (
+          <>
+            <div className="row-2 stats-box-row">
+
+              <div className="stats-box">
+                <p>Total Tickets Sold</p>
+                <h3>{stats.total_tickets}</h3>
+              </div>
+
+              <div className="stats-box">
+                <p>Total Revenue</p>
+                <h3>£{stats.total_revenue.toLocaleString()}</h3>
+              </div>
+
             </div>
 
-        </>
-      )}
+            {/* Graph */}
+            <div className="chart-box">
+              <ResponsiveContainer width="100%" height={320}>
+                <LineChart data={stats.data_points}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="tickets_sold" stroke="#8884d8" name="Tickets Sold" />
+                  <Line type="monotone" dataKey="revenue" stroke="#82ca9d" name="Revenue (£)" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </>
+        )}
+      </div>
+
+      <LoginFooter />
     </div>
   );
 }
