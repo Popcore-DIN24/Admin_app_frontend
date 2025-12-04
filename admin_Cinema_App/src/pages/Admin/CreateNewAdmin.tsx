@@ -1,11 +1,15 @@
-import { useState,  } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import adminImage from "../../assets/admin.jfif.png"; 
+import "./CreateNewAdmin.css";
+import AdminNavbar from "../../components/AdminNavbar";
+import LoginFooter from "../Auth/LoginFooter";
 
 export default function CreateAdmin() {
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"admin" | "super_admin">("admin");
+  const [role, setRole] = useState<"admin" | "employee">("admin");
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -59,103 +63,78 @@ export default function CreateAdmin() {
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Create New Admin</h2>
+    <div>
+      <AdminNavbar />
+      <div className="create-admin-page">
+        <div className="create-admin-card">
+          {/* تصویر سمت چپ */}
+          <div className="create-admin-image">
+            <img src={adminImage} alt="Admin" />
+          </div>
 
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.inputGroup}>
-          <label>Full Name</label>
-          <input
-            type="text"
-            value={fullName}
-            onChange={e => setFullName(e.target.value)}
-            placeholder="John Doe"
-            required
-          />
+          {/* فرم سمت راست */}
+          <div className="create-admin-form-container">
+            <h2>Create New Admin</h2>
+
+            {message && <p className="message success">{message}</p>}
+            {error && <p className="message error">{error}</p>}
+
+            <form onSubmit={handleSubmit} className="create-admin-form">
+              <div className="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={e => setFullName(e.target.value)}
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Username</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                  placeholder="johndoe123"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Role</label>
+                <select
+                  value={role}
+                  onChange={e => setRole(e.target.value as "admin" | "employee")}
+                >
+                  <option value="admin">Admin</option>
+                  <option value="employee">Employee</option>
+                </select>
+              </div>
+
+              <button type="submit" disabled={loading}>
+                {loading ? "Creating..." : "Create Admin"}
+              </button>
+            </form>
+
+            <button className="back-btn" onClick={() => navigate("/admin/")}>
+              Back to home page
+            </button>
+          </div>
         </div>
-
-        <div style={styles.inputGroup}>
-          <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            placeholder="johndoe123"
-            required
-          />
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <div style={styles.inputGroup}>
-          <label>Role</label>
-          <select
-            value={role}
-            onChange={e => setRole(e.target.value as "admin" | "super_admin")}
-          >
-            <option value="admin">Admin</option>
-            <option value="super_admin">Super Admin</option>
-          </select>
-        </div>
-
-        <button type="submit" disabled={loading} style={styles.button}>
-          {loading ? "Creating..." : "Create Admin"}
-        </button>
-
-        {message && <p style={styles.success}>{message}</p>}
-        {error && <p style={styles.error}>{error}</p>}
-      </form>
-      <button onClick={()=>{navigate("/admin/")}}> Back to home bage</button>
-    </div>
+      </div>
+      <LoginFooter />
+  </div>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  container: {
-    maxWidth: "450px",
-    margin: "40px auto",
-    padding: "25px",
-    borderRadius: "12px",
-    background: "#ffffff",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    fontFamily: "Arial, sans-serif",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "15px",
-  },
-  inputGroup: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "5px",
-  },
-  button: {
-    padding: "12px",
-    background: "#007bff",
-    border: "none",
-    borderRadius: "8px",
-    color: "white",
-    cursor: "pointer",
-    fontSize: "16px",
-    marginTop: "10px",
-  },
-  success: {
-    color: "green",
-    marginTop: "10px",
-    fontWeight: "bold",
-  },
-  error: {
-    color: "red",
-    marginTop: "10px",
-    fontWeight: "bold",
-  },
-};

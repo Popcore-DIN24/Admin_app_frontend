@@ -8,7 +8,6 @@ import MoviesList from "../pages/Admin/MoviesList"
 import AssignSchedule from '../pages/Admin/AssignSchedule';
 import MovieSchedule from '../pages/Admin/MovieSchedule';
 import ScheduleMovieWrapper from '../pages/Admin/ScheduleMovieWrapper';
-
 import Cinemamanagement from '../pages/Admin/Cinemamanagement'
 import CreateAdmin from '../pages/Admin/CreateNewAdmin';
 import TicketStatistics from '../pages/Admin/Statistics';
