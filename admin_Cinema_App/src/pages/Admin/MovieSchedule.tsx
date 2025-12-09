@@ -30,7 +30,7 @@ const MovieSchedule: React.FC = () => {
   useEffect(() => {
     const fetchShowtimes = async () => {
       try {
-        const res = await fetch(`https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/movies/${id}/showtimes`);
+        const res = await fetch(`https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/movies/${id}/showtimes`);
         const data: ApiResponse = await res.json();
 
         setShowtimes(data.data || []);

@@ -10,7 +10,7 @@ interface Theater { id: number; name: string; }
 interface Hall { id: number; name: string; }
 interface Movie { id: number; title: string; }
 
-// --- helper for building selection key ---
+
 const makeSelectionKey = (date: string, slot: string) => `${date}||${slot}`;
 const parseSelectionKey = (key: string) => {
   const [date, slot] = key.split("||");
@@ -27,17 +27,14 @@ const AdminSchedule: React.FC = () => {
   const [halls, setHalls] = useState<Hall[]>([]);
   const [selectedHall, setSelectedHall] = useState<number | null>(null);
 
-  // dates: ["2025-11-23","2025-11-24", ...]
+
   const [dates, setDates] = useState<string[]>([]);
 
-  // timeSlotsByDate: { "2025-11-23": ["10:00 - 12:00", ...], ... }
   const [timeSlotsByDate, setTimeSlotsByDate] = useState<Record<string, string[]>>({});
-  // selectedTimes: ["2025-11-23||10:00 - 12:00", ...]
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
 
   const [price, setPrice] = useState<number>(10);
 
-  // --- Custom styles for react-select ---
   const customStyles = {
     option: (provided: any, state: any) => ({
       ...provided,
@@ -50,7 +47,7 @@ const AdminSchedule: React.FC = () => {
     control: (provided: any) => ({ ...provided, borderRadius: 8, borderColor: "#ccc", padding: 2 }),
   };
 
-  // --- Fetch Movies ---
+  
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -63,7 +60,7 @@ const AdminSchedule: React.FC = () => {
     fetchMovies();
   }, []);
 
-  // --- Fetch Theaters ---
+
   useEffect(() => {
     const fetchTheaters = async () => {
       try {
@@ -76,7 +73,6 @@ const AdminSchedule: React.FC = () => {
     fetchTheaters();
   }, []);
 
-  // --- Fetch Halls for selected theater ---
   useEffect(() => {
     const fetchHalls = async () => {
       if (!selectedTheater) {
@@ -96,12 +92,10 @@ const AdminSchedule: React.FC = () => {
     fetchHalls();
   }, [selectedTheater]);
 
-  // --- Generate Time Slots per date, considering existing showtimes in the chosen hall ---
   useEffect(() => {
-    // reset if no hall or no dates
     if (!selectedHall || dates.length === 0) {
       setTimeSlotsByDate({});
-      setSelectedTimes([]); // clear selections when hall/dates change
+      setSelectedTimes([]);
       return;
     }
 
@@ -110,17 +104,16 @@ const AdminSchedule: React.FC = () => {
         const res = await api.get("/api/v6/movies/scheduled");
         const allScheduled = res.data || [];
 
-        // Get all showtimes that belong to the selected hall
+        
         const hallShowtimes = allScheduled
           .flatMap((m: any) => m.showtimes || [])
           .filter((s: any) => s.hall_id === selectedHall)
-          // map to normalized start/end Date objects for faster checks
+         
           .map((s: any) => ({
             start: new Date(s.start_time),
             end: new Date(s.end_time),
           }));
 
-        // slot params
         const startHour = 10;
         const endHour = 22;
         const interval = 2;
@@ -136,9 +129,7 @@ const AdminSchedule: React.FC = () => {
             const slotEnd = new Date(date);
             slotEnd.setHours(h + interval, 0, 0, 0);
 
-            // if any scheduled showtime overlaps this slot => conflict
             const conflict = hallShowtimes.some((st: { start: Date; end: Date }) => {
-              // overlap if NOT (slotEnd <= st.start OR slotStart >= st.end)
               return !(slotEnd <= st.start || slotStart >= st.end);
             });
 
@@ -151,7 +142,6 @@ const AdminSchedule: React.FC = () => {
         }
 
         setTimeSlotsByDate(result);
-        // clear previously selected times because dates/hall changed
         setSelectedTimes([]);
       } catch (err) {
         console.error("Error fetching scheduled showtimes:", err);
@@ -162,7 +152,7 @@ const AdminSchedule: React.FC = () => {
     fetchOccupiedAndBuildSlots();
   }, [selectedHall, dates]);
 
-  // --- Toggle a single date+slot selection ---
+
   const toggleTime = (date: string, slot: string) => {
     const key = makeSelectionKey(date, slot);
     setSelectedTimes(prev =>
@@ -178,8 +168,7 @@ const AdminSchedule: React.FC = () => {
     }
 
     try {
-      // group selectedTimes by date to make requests predictable
-      // selectedTimes items look like "2025-11-23||10:00 - 12:00"
+
       const grouped: Record<string, string[]> = {};
       selectedTimes.forEach(k => {
         const { date, slot } = parseSelectionKey(k);
@@ -212,7 +201,7 @@ const AdminSchedule: React.FC = () => {
             if (err.response?.status === 409) {
               const conflict = err.response.data.conflict?.[0];
               alert(
-                `⛔ Overlapping showtime!\nHall: ${selectedHall}\nExisting showtime:\nStart: ${new Date(conflict.start_time).toLocaleString()}\nEnd: ${new Date(conflict.end_time).toLocaleString()}`
+                ` Overlapping showtime!\nHall: ${selectedHall}\nExisting showtime:\nStart: ${new Date(conflict.start_time).toLocaleString()}\nEnd: ${new Date(conflict.end_time).toLocaleString()}`
               );
             } else {
               alert("Unknown error creating showtime.");
@@ -236,7 +225,7 @@ const AdminSchedule: React.FC = () => {
     }
   };
 
-  // auth check
+  
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (!token) window.location.href = "/admin/login";
@@ -246,7 +235,7 @@ const AdminSchedule: React.FC = () => {
     <div className="admin-schedule-page">
       <AdminNavbar />
       <div className="admin-schedule-container">
-        <h2 className="admin-schedule-title">🎬 Schedule Movie</h2>
+        <h2 className="admin-schedule-title"> Schedule Movie</h2>
 
         {/* Movie */}
         <div className="admin-schedule-form-group">

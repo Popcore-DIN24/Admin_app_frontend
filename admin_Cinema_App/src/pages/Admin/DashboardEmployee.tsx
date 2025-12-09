@@ -1,9 +1,10 @@
 //import React from "react";
 import Calendar from "./Calendar";
 import "./AdminDashboard.css";
-import AdminNavbar from "../../components/AdminNavbar";
+
 import LoginFooter from "../Auth/LoginFooter";
 import { Link } from "react-router-dom";
+import EmployeeNavbar from "../../components/EmployeeNavbar";
 
 export default function AdminDashboard() {
   // const employees = ["Minou Vahedinezhad", "John Doe", "Jack Smisth"]; 
@@ -11,7 +12,7 @@ export default function AdminDashboard() {
   return (
     <div className="admin-dashboard-page">  
       {/* Navbar */}
-      <AdminNavbar />
+     <EmployeeNavbar />
 
       {/* Main Dashboard */}
       <div className="dashboard-container">
@@ -21,7 +22,7 @@ export default function AdminDashboard() {
           {/* Welcome Card */}
           <div className="welcome-card">
             <div className="welcome-text">
-              <h3>Hello # Super_Admin! 👋</h3>
+              <h3>Hello # Employee! 👋</h3>
               <p>Check today's movie schedule and sales</p>
               
             </div>
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
 
           {/* Small Stats */}
           <div className="stats-grid">
-            <Link to="/admin/movies/add" className="stat-card">
+            <Link to="/employee/movies/add" className="stat-card">
               <h2>Add</h2>
               <p>New Movie</p>
             </Link>

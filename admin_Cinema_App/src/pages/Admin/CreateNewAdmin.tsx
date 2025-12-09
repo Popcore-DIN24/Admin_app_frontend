@@ -31,7 +31,7 @@ export default function CreateAdmin() {
 
     try {
       const response = await fetch(
-        "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/admins",
+        "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/admins",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
