@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import LoginFooter from "../Auth/LoginFooter";
 import "./Statistics.css";
+import api from "../../api/axios";
 import {
   LineChart,
   Line,
@@ -50,8 +51,8 @@ export default function TicketStatistics() {
   useEffect(() => {
     async function loadTheaters() {
       try {
-        const res = await fetch("https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters");
-        const data = await res.json();
+        const res = await api.get("/api/v6/theaters");
+        const data = await res.data();
         setTheaters(data.data);
         if (data.data.length > 0) setSelectedTheater(data.data[0].id);
       } catch (err) {
@@ -66,8 +67,8 @@ export default function TicketStatistics() {
     if (!selectedTheater) return;
     async function loadHalls() {
       try {
-        const res = await fetch(`https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/theaters/${selectedTheater}/halls`);
-        const data = await res.json();
+        const res = await api.get(`/api/v6/theaters/${selectedTheater}/halls`);
+        const data = await res.data();
         setHalls(data.data);
         if (data.data.length > 0) setSelectedHall(data.data[0].id);
       } catch (err) {
@@ -84,7 +85,7 @@ export default function TicketStatistics() {
     async function loadStats() {
       setLoading(true);
 
-      let query = `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/reports/tickets?theater_id=${selectedTheater}&hall_id=${selectedHall}`;
+      let query = 'https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/reports/tickets?theater_id=${selectedTheater}&hall_id=${selectedHall}';
 
       if (dateFilter === "today") {
         query += "&filter=today";

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api1 = axios.create({
-  baseURL: "https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net",
+  baseURL: "https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net",
 });
 
 // Auto attach token

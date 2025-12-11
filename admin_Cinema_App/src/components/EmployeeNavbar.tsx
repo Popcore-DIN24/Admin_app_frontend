@@ -2,10 +2,10 @@
 import { useNavigate } from "react-router-dom";
 import logo from '../../src/assets/logo.png';
 import navbarBg from '../../src/assets/navbar-bg.jpg';
-import './adminNavbar.css';
+import './EmployeeNavbar.css';
 
-export default function LoginNavbar() {
-  const navigate = useNavigate();
+export default function EmployeeNavbar() {
+ const navigate = useNavigate();
 
   return (
     <div className="login-navbar" style={{ backgroundImage: `url(${navbarBg})` }}>
@@ -21,12 +21,10 @@ export default function LoginNavbar() {
       </div>
 
       <div className="login-navbar-center">
-        <button onClick={() => navigate("/admin/movies/add")} className="nav-btn">Add Movie</button>
-        <button onClick={() => navigate("/admin/movies/list")} className="nav-btn">Assign Movie Schedule</button>
-        <button onClick={() => navigate("/admin/movies/edit")} className="nav-btn">Edit Movies</button>
-        <button onClick={() => navigate("/admin/movies/delete")} className="nav-btn">Delete Movies</button>
-        <button onClick={() => navigate("/admin/employees")} className="nav-btn">Employees</button>
-        <button onClick={() => navigate("/admin/halls")} className="nav-btn">Halls</button>
+        <button onClick={() => navigate("/employee/movies/add")} className="nav-btn">Add Movie</button>
+        <button onClick={() => navigate("/employee/movies/list")} className="nav-btn">Assign Movie Schedule</button>
+        <button onClick={() => navigate("/employee/movies/edit")} className="nav-btn">Edit Movies</button>
+        <button onClick={() => navigate("/employee/movies/delete")} className="nav-btn">Delete Movies</button>
       </div>
 
       <div className="login-navbar-right">
