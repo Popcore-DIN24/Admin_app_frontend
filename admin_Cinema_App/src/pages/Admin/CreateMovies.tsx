@@ -79,7 +79,7 @@ export default function CreateMovies() {
       const data = res.data;
 
       if (res.status >= 200 && res.status < 300) {
-        setSuccessMessage("🎬 Movie added successfully!");
+        setSuccessMessage(" Movie added successfully!");
         setFormData({
           title: "",
           description: "",
