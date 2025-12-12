@@ -47,12 +47,13 @@ export default function TicketStatistics() {
   const [stats, setStats] = useState<StatsResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Fetch theaters on mount
+  // Fetch theaters
   useEffect(() => {
     async function loadTheaters() {
       try {
         const res = await api.get("/api/v6/theaters");
-        const data = await res.data();
+        const data = res.data;
+
         setTheaters(data.data);
         if (data.data.length > 0) setSelectedTheater(data.data[0].id);
       } catch (err) {
@@ -62,13 +63,15 @@ export default function TicketStatistics() {
     loadTheaters();
   }, []);
 
-  // Fetch halls whenever selectedTheater changes
+  // Fetch halls
   useEffect(() => {
-    if (!selectedTheater) return;
+    if (selectedTheater === null) return;
+
     async function loadHalls() {
       try {
         const res = await api.get(`/api/v6/theaters/${selectedTheater}/halls`);
-        const data = await res.data();
+        const data = res.data;
+
         setHalls(data.data);
         if (data.data.length > 0) setSelectedHall(data.data[0].id);
       } catch (err) {
@@ -78,28 +81,25 @@ export default function TicketStatistics() {
     loadHalls();
   }, [selectedTheater]);
 
-  // Fetch stats whenever theater, hall, or date filter changes
+  // Fetch stats
   useEffect(() => {
-    if (!selectedTheater || !selectedHall) return;
+    if (selectedTheater === null || selectedHall === null) return;
 
     async function loadStats() {
       setLoading(true);
 
-      let query = 'https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/reports/tickets?theater_id=${selectedTheater}&hall_id=${selectedHall}';
+      let query = `/api/v6/reports/tickets?theater_id=${selectedTheater}&hall_id=${selectedHall}`;
 
-      if (dateFilter === "today") {
-        query += "&filter=today";
-      } else if (dateFilter === "week") {
-        query += "&filter=week";
-      } else if (dateFilter === "month") {
-        query += "&filter=month";
-      } else if (dateFilter === "custom" && customStart && customEnd) {
+      if (dateFilter === "today") query += "&filter=today";
+      else if (dateFilter === "week") query += "&filter=week";
+      else if (dateFilter === "month") query += "&filter=month";
+      else if (dateFilter === "custom" && customStart && customEnd)
         query += `&start_date=${customStart}&end_date=${customEnd}`;
-      }
 
       try {
-        const res = await fetch(query);
-        const data = await res.json();
+        const res = await api.get(query);
+        const data = res.data;
+
         setStats(data);
       } catch (err) {
         console.error("Error fetching ticket stats:", err);
@@ -151,33 +151,21 @@ export default function TicketStatistics() {
 
         {/* Date Filter */}
         <div className="date-filter">
-          <button
-            className={dateFilter === "today" ? "btn active" : "btn"}
-            onClick={() => setDateFilter("today")}
-          >
-            Today
-          </button>
-
-          <button
-            className={dateFilter === "week" ? "btn active" : "btn"}
-            onClick={() => setDateFilter("week")}
-          >
-            This Week
-          </button>
-
-          <button
-            className={dateFilter === "month" ? "btn active" : "btn"}
-            onClick={() => setDateFilter("month")}
-          >
-            This Month
-          </button>
-
-          <button
-            className={dateFilter === "custom" ? "btn active" : "btn"}
-            onClick={() => setDateFilter("custom")}
-          >
-            Custom
-          </button>
+          {["today", "week", "month", "custom"].map((filter) => (
+            <button
+              key={filter}
+              className={dateFilter === filter ? "btn active" : "btn"}
+              onClick={() => setDateFilter(filter as any)}
+            >
+              {filter === "today"
+                ? "Today"
+                : filter === "week"
+                ? "This Week"
+                : filter === "month"
+                ? "This Month"
+                : "Custom"}
+            </button>
+          ))}
         </div>
 
         {dateFilter === "custom" && (
@@ -195,7 +183,6 @@ export default function TicketStatistics() {
           </div>
         )}
 
-        {/* Stats Display */}
         {loading ? (
           <p>Loading statistics...</p>
         ) : !stats ? (
@@ -203,7 +190,6 @@ export default function TicketStatistics() {
         ) : (
           <>
             <div className="row-2 stats-box-row">
-
               <div className="stats-box">
                 <p>Total Tickets Sold</p>
                 <h3>{stats.total_tickets}</h3>
@@ -213,10 +199,8 @@ export default function TicketStatistics() {
                 <p>Total Revenue</p>
                 <h3>£{stats.total_revenue.toLocaleString()}</h3>
               </div>
-
             </div>
 
-            {/* Graph */}
             <div className="chart-box">
               <ResponsiveContainer width="100%" height={320}>
                 <LineChart data={stats.data_points}>
