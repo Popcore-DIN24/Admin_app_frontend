@@ -13,7 +13,7 @@ export default function Reports({ theaterId, hallId }: ReportsProps) {
     async function fetchTotalTickets() {
       try {
         const res = await fetch(
-          `https://popcore-facrh7bjd0bbatbj.swedencentral-01.azurewebsites.net/api/v6/reports/theaters/${theaterId}/halls/${hallId}/tickets/total`
+          `https://wdfinpopcorebackend-fyfuhuambrfnc3hz.swedencentral-01.azurewebsites.net/api/v6/reports/theaters/${theaterId}/halls/${hallId}/tickets/total`
         );
 
         const data = await res.json();
